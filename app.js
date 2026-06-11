@@ -17,14 +17,25 @@ const BUSINESS_HOURS = [
 
 // --- SEED INITIAL DATA ---
 function seedDatabase() {
+    // Migration: remove old mock data from previous version
+    const existingUsers = localStorage.getItem('bf_users');
+    if (existingUsers) {
+        try {
+            const users = JSON.parse(existingUsers);
+            const hasExamples = users.some(u => u.name === "Renan degradê" || u.name === "Felipe Navalha");
+            if (hasExamples) {
+                localStorage.removeItem('bf_users');
+                localStorage.removeItem('bf_appointments');
+                localStorage.removeItem('bf_currentUser');
+            }
+        } catch (e) {
+            console.error("Migration error", e);
+        }
+    }
+
     // 1. Seed Barbers & Customers if empty
     if (!localStorage.getItem('bf_users')) {
-        const initialUsers = [
-            { id: "u-barber-1", name: "Felipe Navalha", email: "felipe@barberflow.com", phone: "(11) 98888-7777", role: "barbeiro" },
-            { id: "u-barber-2", name: "Renan degradê", email: "renan@barberflow.com", phone: "(11) 97777-6666", role: "barbeiro" },
-            { id: "u-client-1", name: "Carlos Augusto", email: "carlos@gmail.com", phone: "(11) 96666-5555", role: "cliente" },
-            { id: "u-client-2", name: "Mariana Souza", email: "mariana@gmail.com", phone: "(11) 95555-4444", role: "cliente" }
-        ];
+        const initialUsers = [];
         localStorage.setItem('bf_users', JSON.stringify(initialUsers));
     }
 
@@ -41,62 +52,7 @@ function seedDatabase() {
 
     // 3. Seed Appointments if empty
     if (!localStorage.getItem('bf_appointments')) {
-        const todayStr = getTodayDateString();
-        const tomorrowStr = getDateOffsetString(1);
-        
-        const initialAppointments = [
-            {
-                id: "ap-1",
-                customerId: "u-client-1",
-                customerName: "Carlos Augusto",
-                customerPhone: "(11) 96666-5555",
-                customerEmail: "carlos@gmail.com",
-                barberId: "u-barber-1",
-                barberName: "Felipe Navalha",
-                serviceId: "s-3",
-                serviceName: "Combo VIP (Cabelo + Barba)",
-                servicePrice: 80.00,
-                serviceDuration: 60,
-                date: todayStr,
-                time: "10:30",
-                status: "confirmed",
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: "ap-2",
-                customerId: "u-client-2",
-                customerName: "Mariana Souza",
-                customerPhone: "(11) 95555-4444",
-                customerEmail: "mariana@gmail.com",
-                barberId: "u-barber-1",
-                barberName: "Felipe Navalha",
-                serviceId: "s-1",
-                serviceName: "Corte Degradê Moderno",
-                servicePrice: 50.00,
-                serviceDuration: 45,
-                date: todayStr,
-                time: "14:30",
-                status: "pending",
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: "ap-3",
-                customerId: "u-client-1",
-                customerName: "Carlos Augusto",
-                customerPhone: "(11) 96666-5555",
-                customerEmail: "carlos@gmail.com",
-                barberId: "u-barber-2",
-                barberName: "Renan degradê",
-                serviceId: "s-2",
-                serviceName: "Barboterapia Real",
-                servicePrice: 40.00,
-                serviceDuration: 30,
-                date: tomorrowStr,
-                time: "09:00",
-                status: "confirmed",
-                createdAt: new Date().toISOString()
-            }
-        ];
+        const initialAppointments = [];
         localStorage.setItem('bf_appointments', JSON.stringify(initialAppointments));
     }
 }
@@ -254,6 +210,7 @@ function handleRegister(e) {
     const name = document.getElementById('reg-name').value.trim();
     const email = document.getElementById('reg-email').value.trim().toLowerCase();
     const phone = document.getElementById('reg-phone').value.trim();
+    const password = document.getElementById('reg-password').value;
     
     // Check if user already exists
     const exists = state.users.find(u => u.email === email || u.phone === phone);
@@ -268,6 +225,7 @@ function handleRegister(e) {
         name,
         email,
         phone,
+        password,
         role: currentRegisterType
     };
     
@@ -285,11 +243,11 @@ function handleRegister(e) {
 function handleLogin(e) {
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim().toLowerCase();
-    const phone = document.getElementById('login-phone').value.trim();
+    const password = document.getElementById('login-password').value;
     
-    const user = state.users.find(u => u.email === email && u.phone === phone);
+    const user = state.users.find(u => u.email === email && u.password === password);
     if (!user) {
-        showToast("Dados incorretos ou conta não encontrada!", "error");
+        showToast("E-mail ou senha incorretos!", "error");
         return;
     }
     
