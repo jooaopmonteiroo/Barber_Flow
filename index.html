@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BarberFlow | Agendamento Premium de Barbearia</title>
-    <meta name="description" content="O sistema de agendamento online mais completo e elegante para barbeiros e clientes premium. Gerencie sua agenda e serviços com facilidade.">
+    <meta name="description"
+        content="O sistema de agendamento online mais completo e elegante para barbeiros e clientes premium. Gerencie sua agenda e serviços com facilidade.">
     <!-- Style Sheets -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- ==========================================================================
@@ -90,14 +93,14 @@
          APPLICATION SHELL (BARBER & CLIENT VIEWS)
          ========================================================================== -->
     <div id="view-app-shell" class="view-route-flex app-shell">
-        
+
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="brand-section">
                 <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1rem; margin-bottom: 0;">
                     <i data-lucide="scissors"></i>
                 </div>
-                <span class="logo">BarberFlow</span>
+                <span class="logo">Barberia Dênis Silva</span>
             </div>
 
             <!-- Navigation Links (Dynamic depending on role) -->
@@ -120,14 +123,14 @@
 
         <!-- Main Screen -->
         <main class="main-content">
-            
+
             <!-- Dynamic Header -->
             <div class="top-header">
                 <div class="header-title">
                     <h2 id="page-title">Olá, Bem-vindo</h2>
                     <p id="page-subtitle">Gerencie e agende seus horários na barbearia de forma simples</p>
                 </div>
-                
+
                 <!-- Dynamic Header Action Button -->
                 <div id="header-action-container">
                     <!-- Dynamic button inserted here -->
@@ -138,7 +141,7 @@
                  VIEW: BARBER DASHBOARD (Agenda & Stats)
                  ========================================== -->
             <section id="subview-barber-dashboard" class="view-route active">
-                
+
                 <!-- Stats Summary Row -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -186,8 +189,10 @@
                         <div class="calendar-header">
                             <h3 id="calendar-month-year">Junho 2026</h3>
                             <div style="display: flex; gap: 0.25rem;">
-                                <button class="btn btn-secondary btn-sm" onclick="prevMonth()" style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-left"></i></button>
-                                <button class="btn btn-secondary btn-sm" onclick="nextMonth()" style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-right"></i></button>
+                                <button class="btn btn-secondary btn-sm" onclick="prevMonth()"
+                                    style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-left"></i></button>
+                                <button class="btn btn-secondary btn-sm" onclick="nextMonth()"
+                                    style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-right"></i></button>
                             </div>
                         </div>
                         <div class="calendar-grid" id="calendar-days-grid">
@@ -198,8 +203,15 @@
                     <!-- Agenda List -->
                     <div class="agenda-card">
                         <div class="agenda-header">
-                            <h3>Agenda do Dia</h3>
-                            <div class="agenda-date-selected" id="agenda-date-display">Carregando...</div>
+                            <div>
+                                <h3>Agenda do Dia</h3>
+                                <div class="agenda-date-selected" id="agenda-date-display" style="margin-top: 0.25rem;">
+                                    Carregando...</div>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" onclick="openBlockSlotsModal()"
+                                style="width: auto;">
+                                <i data-lucide="lock"></i> Bloquear Horários
+                            </button>
                         </div>
                         <div class="appointments-list" id="barber-appointments-list">
                             <!-- Rendered by app.js -->
@@ -237,7 +249,7 @@
 
                 <!-- Step Card -->
                 <div class="booking-step-container">
-                    
+
                     <!-- STEP 1: SELECT BARBER -->
                     <div id="booking-step-1" class="booking-step-content">
                         <h3 class="step-title">1. Escolha o Profissional</h3>
@@ -263,15 +275,17 @@
                                 <div class="calendar-header">
                                     <h3 id="client-calendar-month-year">Junho 2026</h3>
                                     <div style="display: flex; gap: 0.25rem;">
-                                        <button class="btn btn-secondary btn-sm" onclick="prevClientMonth()" style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-left"></i></button>
-                                        <button class="btn btn-secondary btn-sm" onclick="nextClientMonth()" style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-right"></i></button>
+                                        <button class="btn btn-secondary btn-sm" onclick="prevClientMonth()"
+                                            style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-left"></i></button>
+                                        <button class="btn btn-secondary btn-sm" onclick="nextClientMonth()"
+                                            style="padding: 0.4rem 0.6rem;"><i data-lucide="chevron-right"></i></button>
                                     </div>
                                 </div>
                                 <div class="calendar-grid" id="client-calendar-days-grid">
                                     <!-- Days generated dynamically -->
                                 </div>
                             </div>
-                            
+
                             <!-- Available Slots -->
                             <div class="time-slots-container">
                                 <h4 id="client-selected-date-label">Selecione uma data para ver os horários</h4>
@@ -311,7 +325,8 @@
 
                     <!-- Navigation Action Buttons -->
                     <div class="booking-nav-buttons">
-                        <button id="btn-booking-prev" class="btn btn-secondary" onclick="prevBookingStep()" style="display: none;">
+                        <button id="btn-booking-prev" class="btn btn-secondary" onclick="prevBookingStep()"
+                            style="display: none;">
                             <i data-lucide="chevron-left"></i> Voltar
                         </button>
                         <div style="flex-grow: 1;"></div>
@@ -354,21 +369,25 @@
             </div>
             <form id="form-service" onsubmit="saveService(event)">
                 <input type="hidden" id="service-id-field">
-                
+
                 <div class="form-group">
                     <label class="form-label" for="service-name">Nome do Serviço</label>
-                    <input type="text" id="service-name" class="form-input" placeholder="Ex: Corte Degradê + Lavagem" required>
+                    <input type="text" id="service-name" class="form-input" placeholder="Ex: Corte Degradê + Lavagem"
+                        required>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label" for="service-description">Descrição</label>
-                    <textarea id="service-description" class="form-input" placeholder="Descreva brevemente o serviço oferecido..." rows="3" style="resize: none;" required></textarea>
+                    <textarea id="service-description" class="form-input"
+                        placeholder="Descreva brevemente o serviço oferecido..." rows="3" style="resize: none;"
+                        required></textarea>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label class="form-label" for="service-price">Preço (R$)</label>
-                        <input type="number" id="service-price" class="form-input" min="0" step="0.01" placeholder="Ex: 50.00" required>
+                        <input type="number" id="service-price" class="form-input" min="0" step="0.01"
+                            placeholder="Ex: 50.00" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="service-duration">Duração (minutos)</label>
@@ -402,9 +421,34 @@
         </div>
     </div>
 
+    <!-- ==========================================================================
+         MODAL: MANAGE BLOCKED SLOTS
+         ========================================================================== -->
+    <div id="modal-block-slots" class="modal-overlay" onclick="closeBlockSlotsModalOnOverlay(event)">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-header">
+                <h3>Bloquear Horários</h3>
+                <button class="close-modal-btn" onclick="closeBlockSlotsModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="block-slots-date-label" style="margin-bottom: 1.5rem; color: var(--gold); font-weight: 600;"></p>
+                <div class="block-slots-grid" id="modal-block-slots-grid">
+                    <!-- Hours with block/unblock actions -->
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="button" class="btn btn-primary btn-sm" onclick="closeBlockSlotsModal()"
+                    style="width: auto;">Concluir</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Application Logic -->
     <script src="app.js"></script>
 </body>
+
 </html>
